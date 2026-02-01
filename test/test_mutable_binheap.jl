@@ -352,4 +352,20 @@ end
         @test pop!(h) === 1.5
         @test pop!(h) === 3
     end
+  
+    @testset "empty!" begin
+        vs = [4, 1, 3, 2, 16, 9, 10, 14, 8, 7]
+        vs2 = collect(enumerate(vs))
+        ordering = Base.Order.By(last)
+
+        for h in (MutableBinaryMinHeap(vs), MutableBinaryMaxHeap(vs), MutableBinaryHeap(ordering, vs2))
+            @test length(h) == length(vs)
+            @test !isempty(h)
+            ret = empty!(h)
+            @test ret === h
+            @test length(ret) == 0
+            @test isempty(ret)
+            @test verify_heap(ret)
+        end
+    end
 end # @testset MutableBinheap
