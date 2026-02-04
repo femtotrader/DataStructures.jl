@@ -343,6 +343,16 @@ end
         @test isequal(heap_values(h), [0.5, 10.1, 3.0, 20.0])
     end
 
+    @testset "T is a Union" begin
+        h = MutableBinaryMinHeap{Union{Int, Float64}}()
+        push!(h, 1)
+        push!(h, 2.0)
+        update!(h, 1, 1.5)
+        update!(h, 2, 3)
+        @test pop!(h) === 1.5
+        @test pop!(h) === 3
+    end
+  
     @testset "empty!" begin
         vs = [4, 1, 3, 2, 16, 9, 10, 14, 8, 7]
         vs2 = collect(enumerate(vs))
